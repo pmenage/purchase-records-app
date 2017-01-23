@@ -7,7 +7,6 @@
   "author": "Pauline Ménage, Wendy Chan, Emilie Leclerc",
   "dependencies": {
     "body-parser": "^1.15.2",
-    "bootstrap": "^3.3.7",
     "ejs": "^2.5.2",
     "express": "~3.2.4",
     "fs": "0.0.1-security",

@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Colocations</title>
+        <meta charset="utf-8" />
+        <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,700" />
+        <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto+Slab:300" />
+        <link rel="stylesheet" type="text/css" href="../bootstrap-3.3.7-dist/css/bootstrap.min.css" />
+        <link rel="stylesheet" type="text/css" href="../bootstrap-3.3.7-dist/css/bootstrap-theme.min.css" />
+        <link rel="stylesheet" type="text/css" href="../bootstrap-3.3.7-dist/js/bootstrap.min.js" />
+        <style>
+            body {
+                font-family: 'Roboto';
+            }
+            
+            h2 h3 {
+                font-family: 'Roboto Slab', serif;
+            }
+            
+            .form-group {
+                margin-bottom: 0px;
+            }
+        </style>
+    
+    </head>
+
+    <body>
+        
+        <div class="container">
+            
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2">
+                    <h2>Administration</h2>
+                    <form method="post">
+                        <button class="btn btn-default" formaction="recreer_base">Recréer base</button>
+                        <button class="btn btn-default" formaction="ajouter_donnees">Ajouter données d'exemple</button>
+                        <button class="btn btn-default" formaction="supprimer_donnees">Supprimer données</button>
+                    </form>
+                </div>
+                <div class="col-md-8 col-md-offset-2">Attention, vous ne pouvez pas ajouter des données d'exemple après les avoir supprimées, il faut d'abord recréer la base.</div>
+        
+                <div class="col-md-8 col-md-offset-2">
+                    <h2>Liste des colocations avec leur gestionnaire</h2>
+                    <% for (var i = 0; i < rows_coloc.length; i++) { %>
+                        <a href="<%= rows_coloc[i].NOM_COLOCATION %>/"><%= rows_coloc[i].NOM_COLOCATION %></a><br />
+                        <div>Gestionnaire : <%= rows_coloc[i].PRENOM_GESTIONNAIRE + ' ' + rows_coloc[i].NOM_GESTIONNAIRE %></div>
+                    <% } %>
+                </div>
+                
+                <div class="col-md-8 col-md-offset-2">
+                    <h2>Liste des personnes</h2>
+                    <% for (var i = 0; i < rows_personne.length; i++) { %>
+                        <div><%= rows_personne[i].PRENOM_PERSONNE + ' ' + rows_personne[i].NOM_PERSONNE %></div>
+                    <% } %>
+                </div>
+                
+            </div>
+        </div>
+    
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2">
+                    <h2>Formulaires d'ajout</h2>
+        
+                    <h3>Ajouter une personne</h3>
+                    <form class="form-horizontal" action="ajouter_personne" method="post">
+                        <div class="form-group">
+                            <label for="prenom" class="col-sm-2 control-label">Prénom</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="prenom" name="prenom" required><br>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="nom" class="col-sm-2 control-label">Nom</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="nom" name="nom" required><br>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="mail" class="col-sm-2 control-label">Mail</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="mail" name="mail" required><br>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="adresse" class="col-sm-2 control-label">Adresse</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="adresse" name="adresse" value="null"><br>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="telephone" class="col-sm-2 control-label">Téléphone</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="telephone" name="telephone" value="null"><br>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button class="btn btn-default" type="submit">Ajouter personne</button>
+                            </div>
+                        </div>
+                    </form>
+              
+                    <h3>Ajouter une colocation</h3>
+                    <div>Attention, pour ajouter une colocation il faut avoir ajouté au moins une personne, sinon vous ne pourrez pas choisir de gestionnaire.</div>
+                    <form class="form-horizontal" action="ajouter_colocation" method="post">
+                        <div class="form-group">
+                            <label for="nom" class="col-sm-2 control-label">Nom</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="nom" name="nom" required><br>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="adresse" class="col-sm-2 control-label">Adresse</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="adresse" name="adresse" required><br>
+                            </div>
+                        </div>                    
+                        <div class="form-group">
+                            <label for="gestionnaire" class="col-sm-2 control-label">Gestionnaire</label>
+                            <div class="col-sm-10">
+                                <select name="gestionnaire" class="form-control" id="gestionnaire">
+                                    <% for (var i = 0; i < rows_personne.length; i++) { %>
+                                        <option value="<%= rows_personne[i].ID_PERSONNE %>"><%= rows_personne[i].PRENOM_PERSONNE + ' ' + rows_personne[i].NOM_PERSONNE %></option>
+                                    <% } %>
+                                </select><br>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button class="btn btn-default" type="submit">Ajouter colocation</button>
+                            </div>
+                        </div>
+                    </form>
+                    
+                    <h3>Ajouter un colocataire à une colocation</h3>
+                    <div>Permet d'ajouter un colocataire à une date donnée.</div>
+                    <form class="form-horizontal" action="ajouter_colocataire" method="post">
+                        <div class="form-group">
+                            <label for="personne" class="col-sm-2 control-label">Personne</label>
+                            <div class="col-sm-10">
+                                <select name="personne" class="form-control" id="personne">
+                                    <% for (var i = 0; i < rows_personne.length; i++) { %>
+                                        <option value="<%= rows_personne[i].ID_PERSONNE %>"><%= rows_personne[i].PRENOM_PERSONNE + ' ' + rows_personne[i].NOM_PERSONNE %></option>
+                                    <% } %>
+                                </select><br>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="colocation" class="col-sm-2 control-label">Colocation</label>
+                            <div class="col-sm-10">
+                                <select name="colocation" class="form-control" id="colocation">
+                                    <% for (var i = 0; i < rows_colocation.length; i++) { %>
+                                        <option value="<%= rows_colocation[i].ID_COLOCATION %>"><%= rows_colocation[i].NOM_COLOCATION %></option>
+                                    <% } %>
+                                </select><br>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="date_entree" class="col-sm-2 control-label">Date d'entrée</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="date_entree" name="date_entree" placeholder="AAAAMMJJ" required><br>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button class="btn btn-default" type="submit">Ajouter colocataire</button>
+                            </div>
+                        </div>
+                    </form>
+            
+                    <h3>Terminer le temps en colocation d'un colocataire</h3>
+                    <div>Permet d'ajouter une date de sortie à un colocataire.</div>
+                    <form class="form-horizontal" action="terminer_colocataire" method="post">
+                        <div class="form-group">
+                            <label for="personne" class="col-sm-2 control-label">Personne</label>
+                            <div class="col-sm-10">
+                                <select name="personne" class="form-control" id="personne">
+                                    <% for (var i = 0; i < rows_personne.length; i++) { %>
+                                        <option value="<%= rows_personne[i].ID_PERSONNE %>"><%= rows_personne[i].PRENOM_PERSONNE + ' ' + rows_personne[i].NOM_PERSONNE %></option>
+                                    <% } %>
+                                </select><br>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="colocation" class="col-sm-2 control-label">Colocation</label>
+                            <div class="col-sm-10">
+                                <select name="colocation" class="form-control" id="colocation">
+                                    <% for (var i = 0; i < rows_colocation.length; i++) { %>
+                                        <option value="<%= rows_colocation[i].ID_COLOCATION %>"><%= rows_colocation[i].NOM_COLOCATION %></option>
+                                    <% } %>
+                                </select><br>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="date_sortie" class="col-sm-2 control-label">Date de sortie</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="date_sortie" name="date_sortie" placeholder="AAAAMMJJ" required><br>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button class="btn btn-default" type="submit">Terminer colocataire</button>
+                            </div>
+                        </div>
+                    </form>
+            
+                    <h3>Ajouter une cagnotte à la colocation</h3>
+                    <div>Permet d'ajouter une cagnotte à une colocation</div>
+                    <form class="form-horizontal" action="ajouter_cagnotte" method="post">
+                        <div class="form-group">
+                            <label for="colocation" class="col-sm-2 control-label">Colocation</label>
+                            <div class="col-sm-10">
+                                <select name="colocation" class="form-control" id="colocation">
+                                    <% for (var i = 0; i < rows_colocation.length; i++) { %>
+                                        <option value="<%= rows_colocation[i].ID_COLOCATION %>"><%= rows_colocation[i].NOM_COLOCATION %></option>
+                                    <% } %>
+                                </select><br>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button class="btn btn-default" type="submit">Ajouter une cagnotte</button>
+                            </div>
+                        </div>
+                    </form>
+            
+                    <h3>Faire un versement à une personne</h3>
+                    <div>Permet à une personne de faire un versement à une autre personne.</div>
+                    <form class="form-horizontal" action="ajouter_versement" method="post">
+                        <div class="form-group">
+                            <label for="date_versement" class="col-sm-2 control-label">Date du versement</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="date_versement" name="date_versement" placeholder="AAAAMMJJ" required><br>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="montant" class="col-sm-2 control-label">Montant</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="montant" name="montant" placeholder="50.00" required><br>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="personne_source" class="col-sm-2 control-label">Personne faisant le versement</label>
+                            <div class="col-sm-10">
+                                <select name="personne_source" class="form-control" id="personne_source">
+                                    <% for (var i = 0; i < rows_personne.length; i++) { %>
+                                        <option value="<%= rows_personne[i].ID_PERSONNE %>"><%= rows_personne[i].PRENOM_PERSONNE + ' ' + rows_personne[i].NOM_PERSONNE %></option>
+                                    <% } %>
+                                </select><br>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="personne_dest" class="col-sm-2 control-label">Personne à qui est fait le virement</label>
+                            <div class="col-sm-10">
+                                <select name="personne_dest" class="form-control" id="personne_dest">
+                                    <% for (var i = 0; i < rows_personne.length; i++) { %>
+                                        <option value="<%= rows_personne[i].ID_PERSONNE %>"><%= rows_personne[i].PRENOM_PERSONNE + ' ' + rows_personne[i].NOM_PERSONNE %></option>
+                                    <% } %>
+                                </select><br>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button class="btn btn-default" type="submit">Faire le versement</button>
+                            </div>
+                        </div>
+                    </form>
+            
+                </div>
+            </div>
+        </div>
+        
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2">
+        
+                    <h2>Modification des données</h2>
+                    
+                    <h3>Modifier une personne</h3>
+                    <form class="form-horizontal" action="modifier_personne" method="post">
+                        <div class="form-group">
+                            <label for="personne" class="col-sm-2 control-label">Personne</label>
+                            <div class="col-sm-10">
+                                <select name="personne" class="form-control" id="personne">
+                                    <% for (var i = 0; i < rows_personne.length; i++) { %>
+                                        <option value="<%= rows_personne[i].ID_PERSONNE %>"><%= rows_personne[i].PRENOM_PERSONNE + ' ' + rows_personne[i].NOM_PERSONNE %></option>
+                                    <% } %>
+                                </select><br>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button class="btn btn-default" type="submit">Modifier la personne</button>
+                            </div>
+                        </div>
+                    </form>
+                    
+                    <h3>Modifier une colocation</h3>
+                    <form action="modifier_colocation" method="post">
+                        <div class="form-group">
+                            <label for="colocation" class="col-sm-2 control-label">Colocation</label>
+                            <div class="col-sm-10">
+                                <select name="colocation" class="form-control" id="colocation">
+                                    <% for (var i = 0; i < rows_colocation.length; i++) { %>
+                                        <option value="<%= rows_colocation[i].ID_COLOCATION %>"><%= rows_colocation[i].NOM_COLOCATION %></option>
+                                    <% } %>
+                                </select><br>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button class="btn btn-default" type="submit">Modifier la colocation</button>
+                            </div>
+                        </div>
+                    </form>    
+                    
+                    <h3>Modifier un colocataire</h3>
+                    <form action="modifier_colocataire" method="post">
+                        <div class="form-group">
+                            <label for="colocataire" class="col-sm-2 control-label">Colocataire à modifier (Colocation - Personne)</label>
+                            <div class="col-sm-10">
+                                <select name="colocataire" class="form-control" id="colocataire">
+                                    <% for (var i = 0; i < rows_colocataire.length; i++) { %>
+                                        <option value="<%= rows_colocataire[i].ID_COLOCATAIRE %>"><%= rows_colocataire[i].ID_COLOCATION + ' ' + rows_colocataire[i].ID_PERSONNE %></option>
+                                    <% } %>
+                                </select><br>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button class="btn btn-default" type="submit">Modifier le colocataire</button>
+                            </div>
+                        </div>
+                    </form>
+                
+                </div>
+            </div>
+        </div>
+        
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2">
+                    <h2>Liste des colocations sans achat</h2>
+                    <form method="post">
+                        <button formaction="aucun_achat" class="btn btn-default">Liste colocations sans achat</button>
+                    </form>
+                </div>        
+            </div>
+        </div>
+        
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2">
+                    <h2>Nombre de colocataires à une date donnée</h2>
+                    <div>Entrer la date à laquelle vous voulez voir le nombre de colocataires dans chaque colocation.</div>
+                    <form class="form-horizontal" action="/nombre_coloc" method="post">
+                        <div class="form-group">
+                            <label for="date" class="col-sm-2 control-label">Date</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="date" name="date" placeholder="AAAAMMJJ" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button class="btn btn-default" type="submit">Voir le nombre de membres</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+    </body>
+</html>

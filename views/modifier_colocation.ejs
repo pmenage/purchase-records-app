@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Modification de <%= rows_colocation[0].NOM_COLOCATION %></title>
+        <meta charset="utf-8" />
+        <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,700" />
+        <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto+Slab:300" />
+        <link rel="stylesheet" type="text/css" href="../bootstrap-3.3.7-dist/css/bootstrap.min.css" />
+        <link rel="stylesheet" type="text/css" href="../bootstrap-3.3.7-dist/css/bootstrap-theme.min.css" />
+        <link rel="stylesheet" type="text/css" href="../bootstrap-3.3.7-dist/js/bootstrap.min.js" />
+        <style>
+            body {
+                font-family: 'Roboto';
+            }
+            
+            h2 h3 {
+                font-family: 'Roboto Slab', serif;
+            }
+        </style>
+    </head>
+
+    <body>
+        
+        <h2>Modification de <%= rows_colocation[0].NOM_COLOCATION %></h2>
+        <div>Remplacez les champs à modifier par la valeur souhaitée.</div>
+        <form action="/modifier_colocation_2" method="post"><br>
+            <input type="hidden" name="colocation" value="<%= colocation %>">
+            Nom : <input type="text" name="nom" value="<%= rows_colocation[0].NOM_COLOCATION %>"><br>
+            Adresse : <input type="text" name="adresse" value="<%= rows_colocation[0].ADRESSE_COLOCATION %>"><br>
+            Gestionnaire : 
+            <select name="gestionnaire">
+                <% for (var i = 0; i < rows_personne.length; i++) {
+                    if (rows_personne[i].ID_PERSONNE == rows_colocation[0].ID_PERSONNE) { %>
+                        <option value="<%= rows_personne[i].ID_PERSONNE %>" selected><%= rows_personne[i].PRENOM_PERSONNE + ' ' + rows_personne[i].NOM_PERSONNE %></option>
+                    <% } else { %>
+                        <option value="<%= rows_personne[i].ID_PERSONNE %>"><%= rows_personne[i].PRENOM_PERSONNE + ' ' + rows_personne[i].NOM_PERSONNE %></option>
+                    <% }
+                } %>
+            </select><br>
+            <button type="submit">Modifier</button>
+        </form>
+        
+    </body>
+</html>

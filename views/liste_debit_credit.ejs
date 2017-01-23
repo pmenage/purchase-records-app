@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Liste des débits et crédits d'une personne</title>
+        <meta charset="utf-8" />
+        <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,700" />
+        <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto+Slab:300" />
+        <link rel="stylesheet" type="text/css" href="../bootstrap-3.3.7-dist/css/bootstrap.min.css" />
+        <link rel="stylesheet" type="text/css" href="../bootstrap-3.3.7-dist/css/bootstrap-theme.min.css" />
+        <link rel="stylesheet" type="text/css" href="../bootstrap-3.3.7-dist/js/bootstrap.min.js" />
+        <style>
+            body {
+                font-family: 'Roboto';
+            }
+            
+            h2 h3 {
+                font-family: 'Roboto Slab', serif;
+            }
+        </style>
+    </head>
+
+    <body>
+        
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2">
+        
+                    <h2>Liste des crédits</h2>
+                    <% if (rows_credit.length == 0) { %>
+                        <div>Cette personne n'a pas de crédit.</div>
+                    <% } else {
+                    for (var i = 0; i < rows_credit.length; i++) { %>
+                        <div><%= rows_credit[i].CREDIT %></div>
+                    <% }
+                    } %>
+                    
+                    <h2>Liste des debits</h2>
+                    <% if (rows_debit.length == 0) { %>
+                        <div>Cette personne n'a pas de débit.</div>
+                    <% } else {
+                    for (var i = 0; i < rows_debit.length; i++) { %>
+                        <div><%= rows_debit[i].DEBIT %></div>
+                    <% }
+                    } %>
+                    
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2">
+        
+                    <h3>Participer à une cagnotte</h3>
+                    <div>Ce formulaire permet de faire une participation à la cagnotte de sa colocation.</div>
+                    <form class="form-horizontal" action="<%= id_colocataire %>/ajouter_participation" method="post">
+                        <div class="form-group">
+                            <label for="cagnotte" class="col-sm-2 control-label">Cagnotte</label>
+                            <div class="col-sm-10">
+                                <select name="cagnotte" class="form-control" id="cagnotte">
+                                    <% for (var i = 0; i < rows_cagnotte.length; i++) { %>
+                                        <option value="<%= rows_cagnotte[i].ID_CAGNOTTE %>"><%= rows_cagnotte[i].NOM_COLOCATION %></option>
+                                    <% } %>
+                                </select><br>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="date_participation" class="col-sm-2 control-label">Date de participation</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="date_participation" name="date_participation" placeholder="AAAAMMJJ" required><br>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="montant" class="col-sm-2 control-label">Montant</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="montant" name="montant" placeholder="50.00" required><br>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button class="btn btn-default" type="submit">Participer à cagnotte</button>
+                            </div>
+                        </div>
+                    </form>
+                    
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

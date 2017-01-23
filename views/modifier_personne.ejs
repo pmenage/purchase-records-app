@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Modification de <%= rows_personne[0].PRENOM_PERSONNE + ' ' + rows_personne[0].NOM_PERSONNE %></title>
+        <meta charset="utf-8" />
+        <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,700" />
+        <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto+Slab:300" />
+        <link rel="stylesheet" type="text/css" href="../bootstrap-3.3.7-dist/css/bootstrap.min.css" />
+        <link rel="stylesheet" type="text/css" href="../bootstrap-3.3.7-dist/css/bootstrap-theme.min.css" />
+        <link rel="stylesheet" type="text/css" href="../bootstrap-3.3.7-dist/js/bootstrap.min.js" />
+        <style>
+            body {
+                font-family: 'Roboto';
+            }
+            
+            h2 h3 {
+                font-family: 'Roboto Slab', serif;
+            }
+        </style>
+    </head>
+
+    <body>
+        
+        <h2>Modification de <%= rows_personne[0].PRENOM_PERSONNE + ' ' + rows_personne[0].NOM_PERSONNE %></h2>
+        <div>Remplacez les champs à modifier par la valeur souhaitée.</div>
+        <form action="/modifier_personne_2" method="post"><br>
+            <input type="hidden" name="personne" value="<%= personne %>">
+            Nom : <input type="text" name="nom" value="<%= rows_personne[0].NOM_PERSONNE %>"><br>
+            Prénom : <input type="text" name="prenom" value="<%= rows_personne[0].PRENOM_PERSONNE %>"><br>
+            Mail : <input type="text" name="mail" value="<%= rows_personne[0].MAIL_PERSONNE %>"><br>
+            Adresse : <input type="text" name="adresse" value="<%= rows_personne[0].ADRESSE_PERSONNE %>"><br>
+            Téléphone : <input type="text" name="telephone" value="<%= rows_personne[0].TELEPHONE_PERSONNE %>"><br>
+            <button type="submit">Modifier</button>
+        </form>
+        
+    </body>
+</html>

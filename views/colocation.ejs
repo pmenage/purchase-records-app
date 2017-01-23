@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Colocation <%= colocation %></title>
+        <meta charset="utf-8" />
+        <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,700" />
+        <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto+Slab:300" />
+        <link rel="stylesheet" type="text/css" href="../bootstrap-3.3.7-dist/css/bootstrap.min.css" />
+        <link rel="stylesheet" type="text/css" href="../bootstrap-3.3.7-dist/css/bootstrap-theme.min.css" />
+        <link rel="stylesheet" type="text/css" href="../bootstrap-3.3.7-dist/js/bootstrap.min.js" />
+        <style>
+            body {
+                font-family: 'Roboto';
+            }
+            
+            h2 h3 {
+                font-family: 'Roboto Slab', serif;
+            }
+            
+            .form-group {
+                margin-bottom: 0px;
+            }
+        </style>
+        
+    </head>
+
+    <body>
+        
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2">
+                    <h2>Membres de la colocation <%= colocation %></h2>
+                    <div>Cliquer sur une personne pour voir la liste de ses crédits et de ses débits. Attention, ça ne marche pas, voir le formulaire plus bas.</div>
+                    <% if (rows_personne[1].length == 0) { %>
+                        <div>Cette colocation n'a pas de membres.</div>
+                    <% } else { %>
+                        <% for (var i = 0; i < rows_personne[1].length; i++) { %>
+                        <a href="colocataire/<%= rows_personne[1][i].ID_PERSONNE %>"><%= rows_personne[1][i].PRENOM_PERSONNE + ' ' + rows_personne[1][i].NOM_PERSONNE %></a><br />
+                    <% }
+                    } %>
+                    <h2>Liste des achats</h2>
+                    <div>Choisir un mois :</div>
+                    <ul>
+                        <li><a href="mois/01">Janvier</a></li>
+                        <li><a href="mois/02">Février</a></li>
+                        <li><a href="mois/03">Mars</a></li>
+                        <li><a href="mois/04">Avril</a></li>
+                        <li><a href="mois/05">Mai</a></li>
+                        <li><a href="mois/06">Juin</a></li>
+                        <li><a href="mois/07">Juillet</a></li>
+                        <li><a href="mois/08">Août</a></li>
+                        <li><a href="mois/09">Septembre</a></li>
+                        <li><a href="mois/10">Octobre</a></li>
+                        <li><a href="mois/11">Novembre</a></li>
+                        <li><a href="mois/12">Décembre</a></li>
+                    </ul>
+                    <h2>Cagnotte</h2>
+                    <% if (rows_cagnotte.length == 0) { %>
+                        <div>Cette colocation n'a pas de cagnotte</div>
+                    <% } else { %>
+                        <div>Cette colocation a une cagnotte.</div>
+                    <% } %>
+                    
+                    <h2>Solde de tous les membres de la colocation</h2>
+                    <% if (rows_solde[1].length == 0) { %>
+                        <div></div>
+                    <% } else { %>
+                        <% for (var i = 0; i < rows_solde[1].length; i++) { %>
+                        <div><%= rows_solde[1][i].PRENOM + ' ' + rows_solde[1][i].NOM + ' : ' + rows_solde[1][i].SOLDE %></div>
+                    <% }
+                    } %>
+        
+                </div>
+            </div>
+        </div>
+        
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2">
+                    
+                    <h2>Voir la liste des débits et crédits d'une personne</h2>
+                    <div>Choisir la personne voulue.</div>
+                    <form class="form-horizontal" action="voir_liste_pers" method="post">
+                        <div class="form-group">
+                            <label for="personne" class="col-sm-2 control-label">Personne</label>
+                            <div class="col-sm-10">
+                                <select name="personne" class="form-control" id="personne">
+                                    <% for (var i = 0; i < rows_personne[1].length; i++) { %>
+                                        <option value="<%= rows_personne[1][i].ID_PERSONNE %>"><%= rows_personne[1][i].PRENOM_PERSONNE + ' ' + rows_personne[1][i].NOM_PERSONNE %></option>
+                                    <% } %>
+                                </select><br>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button class="btn btn-default" type="submit">Voir la liste</button>
+                            </div>
+                        </div>
+                    </form>
+                    
+                    <h3>Ajouter un achat</h3>
+                    <div>Permet d'ajouter un achat à une date donnée.</div>
+                    <form class="form-horizontal" action="<%= colocation %>/ajouter_achat" method="post">
+                        <div class="form-group">
+                            <label for="intitule" class="col-sm-2 control-label">Intitulé</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="intitule" name="intitule" placeholder="AAAAMMJJ" required><br>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="date_achat" class="col-sm-2 control-label">Date d'achat</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="date_achat" name="date_achat" placeholder="AAAAMMJJ" required><br>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="montant" class="col-sm-2 control-label">Montant</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="montant" name="montant" placeholder="50.00" required><br>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="colocation" class="col-sm-2 control-label">Colocation</label>
+                            <div class="col-sm-10">
+                                <select name="colocation" class="form-control" id="colocation">
+                                    <% for (var i = 0; i < rows_coloc.length; i++) { %>
+                                        <option value="<%= rows_coloc[i].ID_COLOCATION %>"><%= rows_coloc[i].NOM_COLOCATION %></option>
+                                    <% } %>
+                                </select><br>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="personne" class="col-sm-2 control-label">Personne</label>
+                            <div class="col-sm-10">
+                                <select name="personne" class="form-control" id="personne">
+                                    <% for (var i = 0; i < rows_personne[1].length; i++) { %>
+                                        <option value="<%= rows_personne[1][i].ID_PERSONNE %>"><%= rows_personne[1][i].PRENOM_PERSONNE + ' ' + rows_personne[1][i].NOM_PERSONNE %></option>
+                                    <% } %>
+                                </select><br>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button class="btn btn-default" type="submit">Ajouter achat</button>
+                            </div>
+                        </div>
+                    </form>
+                    
+                    <h3>Donner la personne concernée par un achat</h3>
+                    <div>Permet de dire qui est concerné par un achat</div>
+                    <form class="form-horizontal" action="<%= colocation %>/ajouter_concerne" method="post">
+                        <div class="form-group">
+                            <label for="achat" class="col-sm-2 control-label">Achat</label>
+                            <div class="col-sm-10">
+                                <select name="achat" class="form-control" id="achat">
+                                    <% for (var i = 0; i < rows_achat.length; i++) { %>
+                                        <option value="<%= rows_achat[i].ID_ACHAT %>"><%= rows_achat[i].INTITULE + ' ' + rows_achat[i].DATE_ACHAT %></option>
+                                    <% } %>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="personne" class="col-sm-2 control-label">Personne</label>
+                            <div class="col-sm-10">
+                                <select name="personne" class="form-control" id="personne">
+                                    <% for (var i = 0; i < rows_personne[1].length; i++) { %>
+                                        <option value="<%= rows_personne[1][i].ID_PERSONNE %>"><%= rows_personne[1][i].PRENOM_PERSONNE + ' ' + rows_personne[1][i].NOM_PERSONNE %></option>
+                                    <% } %>
+                                </select><br>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button class="btn btn-default" type="submit">Ajouter personne concernée</button>
+                            </div>
+                        </div>
+                    </form>
+                    
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

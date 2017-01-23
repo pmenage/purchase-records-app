@@ -1,0 +1,5 @@
+create trigger NEW_COLOCATAIRE
+after insert on COLOCATAIRE
+for each row
+    insert into VERSEMENT (ID_VERSEMENT, DATE_VERSEMENT, MONTANT_VERSEMENT, ID_PERSONNE_P, ID_PERSONNE_R)
+    values (null, new.DATE_ENTREE_COLOC, 0.00, new.ID_PERSONNE, new.ID_PERSONNE)

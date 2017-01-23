@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Liste des débits et crédits de <%= rows_personne[0].PRENOM_PERSONNE %> <%= rows_personne[0].NOM_PERSONNE %></title>
+        <meta charset="utf-8" />
+        <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,700" />
+        <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto+Slab:300" />
+        <link rel="stylesheet" type="text/css" href="../bootstrap-3.3.7-dist/css/bootstrap.min.css" />
+        <link rel="stylesheet" type="text/css" href="../bootstrap-3.3.7-dist/css/bootstrap-theme.min.css" />
+        <link rel="stylesheet" type="text/css" href="../bootstrap-3.3.7-dist/js/bootstrap.min.js" />
+        <style>
+            body {
+                font-family: 'Roboto';
+            }
+            
+            h2 h3 {
+                font-family: 'Roboto Slab', serif;
+            }
+        </style>
+    </head>
+
+    <body>
+        
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2">
+                                
+                    <h2>Liste des crédits de <%= rows_personne[0].PRENOM_PERSONNE %> <%= rows_personne[0].NOM_PERSONNE %></h2>
+                    <% if (rows_credit[1].length == 0) { %>
+                        <div>Cette personne n'a pas de crédit.</div>
+                    <% } else {
+                    for (var i = 0; i < rows_credit[1].length; i++) { %>
+                        <div><%= rows_credit[1][i].MONTANT %></div>
+                    <% }
+                    } %>
+                    
+                    <h2>Liste des debits de <%= rows_personne[0].PRENOM_PERSONNE %> <%= rows_personne[0].NOM_PERSONNE %></h2>
+                    <% if (rows_debit[1].length == 0) { %>
+                        <div>Cette personne n'a pas de débit.</div>
+                    <% } else {
+                    for (var i = 0; i < rows_debit[1].length; i++) { %>
+                        <div><%= rows_debit[1][i].MONTANT %></div>
+                    <% }
+                    } %>
+                    
+                    <h2>Liste des débits et crédits</h2>
+                    <% if (rows_both[1].length == 0) { %>
+                        <div>Cette personne n'a pas de crédits et de débits</div>
+                    <% } else {
+                    for (var i = 0; i < rows_both[1].length; i++) { %>
+                        <div><%= rows_both[1][i].OPERATION + " : " + rows_both[1][i].MONTANT %></div>
+                    <% }
+                    } %>
+                    
+                </div>
+            </div>
+        </div>
+        
+    </body>
+</html>

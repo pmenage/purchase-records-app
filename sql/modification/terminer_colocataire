@@ -1,0 +1,3 @@
+update COLOCATAIRE
+set DATE_SORTIE_COLOC = ?
+where ID_PERSONNE = ? and ID_COLOCATION = ?;
